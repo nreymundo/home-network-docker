@@ -12,7 +12,7 @@ services:
       - ./mosquitto/config:/mosquitto/config
       - ./mosquitto/data:/mosquitto/data
       - ./mosquitto/log:/mosquitto/log
-    restart: always
+    restart: unless-stopped
 
   homeassistant:
     container_name: homeassistant
@@ -24,7 +24,7 @@ services:
       - TZ=Europe/Berlin
     depends_on:
       - mosquitto
-    restart: always
+    restart: unless-stopped
     ports:
       - 8123:8123
     healthcheck:
@@ -44,7 +44,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
     depends_on:
       - homeassistant
-    restart: always
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://127.0.0.1:1880"]
       interval: 30s
