@@ -1,0 +1,14 @@
+# Ignoring everything by default. 
+*
+
+# Excluding loose files.
+!README.md
+!.gitignore
+
+# Excluding folders
+!home_automation/
+!ingress/
+!sync/
+
+# Excluding docker-compose.yml in the folders above
+!**/docker-compose.yml
