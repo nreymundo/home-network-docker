@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+
+  letsencrypt:
+    image: linuxserver/letsencrypt
+    container_name: letsencrypt
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TIMEZONE}
+      - URL=${DOMAIN}
+      - SUBDOMAINS=wildcard
+      - VALIDATION=dns
+      - DNSPLUGIN=cloudflare
+      - EMAIL=${EMAIL}
+    volumes:
+      - ./letsencrypt:/config
+    ports:
+      - 443:443
+      - 80:80
+    restart: unless-stopped
+
+networks:
+  default:
+    external:
+      name: default-network
