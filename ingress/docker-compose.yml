@@ -1,31 +1,26 @@
-version: "3"
+version: "3.8"
 
 services:
-  nginx:
-    image: jc21/nginx-proxy-manager:latest   
-    ports:
-      - 80:80
-      - 443:443
-      - 81:81
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./config.json:/app/config/production.json
-      - ./data:/data
-      - ./letsencrypt:/etc/letsencrypt
-    restart: unless-stopped
-    depends_on:
-      - mariadb
 
-  mariadb:
-    image: yobasystems/alpine-mariadb:latest
+  letsencrypt:
+    image: linuxserver/letsencrypt
+    container_name: letsencrypt
+    cap_add:
+      - NET_ADMIN
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TIMEZONE}
+      - URL=${DOMAIN}
+      - SUBDOMAINS=wildcard
+      - VALIDATION=dns
+      - DNSPLUGIN=cloudflare
+      - EMAIL=${EMAIL}
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./mysql:/var/lib/mysql
+      - ./letsencrypt:/config
+    ports:
+      - 443:443
+      - 80:80
     restart: unless-stopped
 
 networks:
