@@ -18,6 +18,7 @@ services:
       - EMAIL=${EMAIL}
     volumes:
       - ./letsencrypt:/config
+      - ./cloudflare:/cloudflare
     ports:
       - 443:443
       - 80:80
