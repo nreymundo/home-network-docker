@@ -9,6 +9,7 @@
 !home_automation/
 !ingress/
 !sync/
+!analytics/
 
 # Excluding docker-compose.yml in the folders above
 !**/docker-compose.yml
