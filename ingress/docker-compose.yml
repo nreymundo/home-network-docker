@@ -1,10 +1,10 @@
-version: "3.8"
+version: "3"
 
 services:
 
   letsencrypt:
     image: linuxserver/letsencrypt
-    container_name: letsencrypt
+    container_name: ingress
     cap_add:
       - NET_ADMIN
     environment:
@@ -22,6 +22,17 @@ services:
     ports:
       - 443:443
       - 80:80
+    restart: unless-stopped
+
+  prometheus-nginx:
+    image: mmontes11/nginx-prometheus-exporter:v0.8.0
+    container_name: ingress_exporter
+    environment:
+      - SCRAPE_URI=http://ingress/metrics
+      - TELEMETRY_PATH=/prometheus
+      - NGINX_RETRIES=30
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
 
 networks:
