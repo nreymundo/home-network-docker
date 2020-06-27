@@ -1,3 +1,6 @@
+# Probably the worst way to do this. 
+# I suck at .gitignore stuff. 
+
 # Ignoring everything by default. 
 *
 
@@ -10,6 +13,12 @@
 !ingress/
 !utils/
 !analytics/
+
+# Excluding some specific grafana stuff
+!analytics/grafana/
+!analytics/grafana/provisioning/
+!analytics/grafana/provisioning/datasources
+!analytics/grafana/provisioning/datasources/datasource.yml
 
 # Excluding docker-compose.yml in the folders above
 !**/docker-compose.yml
